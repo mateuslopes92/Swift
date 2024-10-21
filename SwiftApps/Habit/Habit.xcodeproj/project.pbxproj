@@ -10,6 +10,10 @@
 		520533512CBE180900661529 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520533502CBE180200661529 /* SignInView.swift */; };
 		520533532CBE186500661529 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520533522CBE186500661529 /* SignInViewModel.swift */; };
 		520533552CBE191500661529 /* SplashViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520533542CBE191500661529 /* SplashViewRouter.swift */; };
+		521610B22CC0B4F8002333C2 /* SignInUIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521610B12CC0B4EF002333C2 /* SignInUIState.swift */; };
+		521610B42CC0B92A002333C2 /* SignInViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521610B32CC0B922002333C2 /* SignInViewRouter.swift */; };
+		521610BC2CC0B9B2002333C2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521610BB2CC0B9AB002333C2 /* HomeView.swift */; };
+		521610BE2CC0B9C5002333C2 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521610BD2CC0B9BE002333C2 /* HomeViewModel.swift */; };
 		524711512CBF655900B21CE7 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524711502CBF655300B21CE7 /* SplashViewModel.swift */; };
 		52B623F42B4CE11A008988DD /* HabitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B623F32B4CE11A008988DD /* HabitApp.swift */; };
 		52B623F82B4CE11B008988DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52B623F72B4CE11B008988DD /* Assets.xcassets */; };
@@ -19,6 +23,8 @@
 		52B624112B4CE11B008988DD /* HabitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B624102B4CE11B008988DD /* HabitUITestsLaunchTests.swift */; };
 		52B624212B4CE236008988DD /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B624202B4CE236008988DD /* SplashView.swift */; };
 		52B624232B4E236A008988DD /* SplashUIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B624222B4E236A008988DD /* SplashUIState.swift */; };
+		52C648012CC45C5F000D2BFE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C648002CC45C58000D2BFE /* SignUpView.swift */; };
+		52C648052CC461E8000D2BFE /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C648042CC461E3000D2BFE /* Gender.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +48,10 @@
 		520533502CBE180200661529 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		520533522CBE186500661529 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		520533542CBE191500661529 /* SplashViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewRouter.swift; sourceTree = "<group>"; };
+		521610B12CC0B4EF002333C2 /* SignInUIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUIState.swift; sourceTree = "<group>"; };
+		521610B32CC0B922002333C2 /* SignInViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewRouter.swift; sourceTree = "<group>"; };
+		521610BB2CC0B9AB002333C2 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		521610BD2CC0B9BE002333C2 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		524711502CBF655300B21CE7 /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
 		52B623F02B4CE11A008988DD /* Habit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B623F32B4CE11A008988DD /* HabitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitApp.swift; sourceTree = "<group>"; };
@@ -54,6 +64,8 @@
 		52B624102B4CE11B008988DD /* HabitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		52B624202B4CE236008988DD /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		52B624222B4E236A008988DD /* SplashUIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashUIState.swift; sourceTree = "<group>"; };
+		52C648002CC45C58000D2BFE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		52C648042CC461E3000D2BFE /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +123,7 @@
 		5205334E2CBE17EB00661529 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				521610B12CC0B4EF002333C2 /* SignInUIState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -118,7 +131,41 @@
 		5205334F2CBE17F100661529 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				521610B32CC0B922002333C2 /* SignInViewRouter.swift */,
 				520533522CBE186500661529 /* SignInViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		521610B52CC0B972002333C2 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				521610BA2CC0B999002333C2 /* ViewModel */,
+				521610B92CC0B993002333C2 /* Model */,
+				521610B82CC0B98B002333C2 /* View */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		521610B82CC0B98B002333C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				521610BB2CC0B9AB002333C2 /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		521610B92CC0B993002333C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		521610BA2CC0B999002333C2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				521610BD2CC0B9BE002333C2 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -146,6 +193,9 @@
 		52B623F22B4CE11A008988DD /* Habit */ = {
 			isa = PBXGroup;
 			children = (
+				52C648022CC461CA000D2BFE /* Common */,
+				52C647FC2CC45C40000D2BFE /* SignUp */,
+				521610B52CC0B972002333C2 /* Home */,
 				5205334C2CBE17DA00661529 /* SignIn */,
 				52B6241D2B4CE1D8008988DD /* Splash */,
 				52B623F32B4CE11A008988DD /* HabitApp.swift */,
@@ -202,6 +252,54 @@
 			isa = PBXGroup;
 			children = (
 				52B624222B4E236A008988DD /* SplashUIState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		52C647FC2CC45C40000D2BFE /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				52C647FF2CC45C51000D2BFE /* ViewModel */,
+				52C647FE2CC45C4C000D2BFE /* Model */,
+				52C647FD2CC45C46000D2BFE /* View */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		52C647FD2CC45C46000D2BFE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				52C648002CC45C58000D2BFE /* SignUpView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		52C647FE2CC45C4C000D2BFE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		52C647FF2CC45C51000D2BFE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		52C648022CC461CA000D2BFE /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				52C648032CC461D8000D2BFE /* Model */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		52C648032CC461D8000D2BFE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				52C648042CC461E3000D2BFE /* Gender.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -337,10 +435,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				52B624232B4E236A008988DD /* SplashUIState.swift in Sources */,
+				521610BE2CC0B9C5002333C2 /* HomeViewModel.swift in Sources */,
 				52B623F42B4CE11A008988DD /* HabitApp.swift in Sources */,
 				520533532CBE186500661529 /* SignInViewModel.swift in Sources */,
+				52C648012CC45C5F000D2BFE /* SignUpView.swift in Sources */,
+				521610BC2CC0B9B2002333C2 /* HomeView.swift in Sources */,
+				521610B42CC0B92A002333C2 /* SignInViewRouter.swift in Sources */,
 				524711512CBF655900B21CE7 /* SplashViewModel.swift in Sources */,
+				52C648052CC461E8000D2BFE /* Gender.swift in Sources */,
 				52B624212B4CE236008988DD /* SplashView.swift in Sources */,
+				521610B22CC0B4F8002333C2 /* SignInUIState.swift in Sources */,
 				520533552CBE191500661529 /* SplashViewRouter.swift in Sources */,
 				520533512CBE180900661529 /* SignInView.swift in Sources */,
 			);
@@ -513,7 +617,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -542,7 +646,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
