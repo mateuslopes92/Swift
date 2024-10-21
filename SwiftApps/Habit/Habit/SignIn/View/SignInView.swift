@@ -14,35 +14,51 @@ struct SignInView: View {
     @State var action: Int? = 0
     
     var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .center, spacing: 36) {
-                    
-                    Spacer(minLength: 36)
-                    
-                    VStack(alignment: .center, spacing: 8) {
-                        Image("logo")
-                            .resizable()
-                            .scaledToFit()
-                            .padding(.horizontal, 48)
-                        
-                        Text("Sign in to your account")
-                            .font(.headline.bold())
-                            .padding(.horizontal, 48)
-                            .foregroundColor(.orange)
-                        
-                        emailField
-                        
-                        passwordField
+        ZStack {
+            if case SignInUIState.goToHomeScreen = viewModel.uiState {
+                viewModel.homeView()
+            } else {
+                NavigationStack {
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .center, spacing: 36) {
+                            
+                            Spacer(minLength: 36)
+                            
+                            VStack(alignment: .center, spacing: 8) {
+                                Image("logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .padding(.horizontal, 48)
+                                
+                                Text("Sign in to your account")
+                                    .font(.headline.bold())
+                                    .padding(.horizontal, 48)
+                                    .foregroundColor(.orange)
+                                
+                                emailField
+                                
+                                passwordField
 
-                        enterButton
+                                enterButton
+                                
+                                registerLink
+                            }
+                        }
                         
-                        registerLink
+                        if case SignInUIState.error(let error) = viewModel.uiState {
+                            Text("")
+                                .alert(isPresented: .constant(true)) {
+                                    Alert(title: Text("Habit"), message: Text(error), dismissButton: .default(Text("Ok")) {
+                                        // handle button
+                                    })
+                                }
+                        }
+                        
                     }
+                    .navigationBarTitle("Sign in", displayMode: .inline)
+                    .navigationBarHidden(true)
                 }
             }
-            .navigationBarTitle("Sign in", displayMode: .inline)
-            .navigationBarHidden(true)
         }
     }
 }
@@ -67,8 +83,8 @@ extension SignInView {
 
 extension SignInView {
     var enterButton: some View {
-        Button("Sign in") {
-            // func that handle click
+        Button("Sign In") {
+            viewModel.signIn(email: email, password: password)
         }
         .padding(.top)
     }
@@ -85,18 +101,12 @@ extension SignInView {
                     // handle register
                 }
             ZStack {
-                NavigationLink(
-                    destination: Text("Register"),
-                    tag: 1,
-                    selection: $action,
-                    label: { EmptyView() }
-                )
-                
-                Button("Register now"){
-                    self.action = 1
+                NavigationLink {
+                    viewModel.signUpView()
                 }
-                .foregroundColor(.orange)
-             
+                label: {
+                    Text("Register Now")
+                }.foregroundColor(.orange)
             }
         }
     }
