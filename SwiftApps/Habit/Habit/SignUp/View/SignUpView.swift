@@ -16,11 +16,12 @@ struct SignUpView: View {
     @State var phone = ""
     @State var birthday = ""
     @State var gender = Gender.male
-    // todo: gender
+    @ObservedObject var viewModel: SignUpViewModel
     
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
+                
                 VStack(alignment: .center){
                     VStack(alignment: .center, spacing: 20) {
                         Text("Sign Up")
@@ -47,6 +48,15 @@ struct SignUpView: View {
                      
                     Spacer()
                     
+                }
+                
+                if case SignUpUIState.error(let error) = viewModel.uiState {
+                    Text("")
+                        .alert(isPresented: .constant(true)) {
+                            Alert(title: Text("Habit"), message: Text(error), dismissButton: .default(Text("Ok")) {
+                                // handle button
+                            })
+                        }
                 }
             }
         }
@@ -122,12 +132,12 @@ extension SignUpView {
 extension SignUpView {
     var saveButton: some View {
         Button("Sign Up") {
-            //
+            viewModel.signUp()
         }
         .padding(.top)
     }
 }
 
 #Preview {
-    SignUpView()
+    SignUpView(viewModel: SignUpViewModel())
 }

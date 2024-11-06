@@ -33,6 +33,7 @@ struct SignInView: View {
                                 Text("Sign in to your account")
                                     .font(.headline.bold())
                                     .padding(.horizontal, 48)
+                                    .padding(.bottom, 16)
                                     .foregroundColor(.orange)
                                 
                                 emailField
@@ -41,7 +42,15 @@ struct SignInView: View {
 
                                 enterButton
                                 
+                                Spacer()
+                                
                                 registerLink
+                                
+                                Text("Copyright © Mateus Consultoria e Desenvolvimento de Software LTDA 2022. \n All rights reserved.")
+                                    .foregroundStyle(Color.gray)
+                                    .font(Font.system(size: 12).bold())
+                                    .padding(.top, 16)
+                                    .multilineTextAlignment(.center)
                             }
                         }
                         
@@ -57,7 +66,7 @@ struct SignInView: View {
                     }
                     .navigationBarTitle("Sign in", displayMode: .inline)
                     .navigationBarHidden(true)
-                }
+                }.padding(.horizontal)
             }
         }
     }
@@ -65,28 +74,35 @@ struct SignInView: View {
 
 extension SignInView {
     var emailField: some View {
-        TextField("Email", text: $email)
-            .padding()
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $email,
+                     placeholder: "E-mail",
+                     keyboardType: .emailAddress,
+                     error: "e-mail is invalid",
+                     failure: !email.isEmail())
     }
 }
 
 extension SignInView {
     var passwordField: some View {
-        SecureField("Password", text: $password)
-            .padding(.horizontal)
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $password,
+                     placeholder: "Password",
+                     keyboardType: .emailAddress,
+                     error: "password should have at least 8 characters",
+                     failure: password.count < 8,
+                     isSecure: true)
     }
 }
 
 extension SignInView {
     var enterButton: some View {
-        Button("Sign In") {
-            viewModel.signIn(email: email, password: password)
-        }
-        .padding(.top)
+        LoadingButtonView(
+            text: "Sign In",
+            action: {
+                viewModel.signIn(email: email, password: password)
+            },
+            disabled: !email.isEmail() || password.count < 8,
+            showProgress: viewModel.uiState == SignInUIState.loading
+        )
     }
 }
 
@@ -113,8 +129,14 @@ extension SignInView {
 }
 
 
-#Preview {
-    let viewModel = SignInViewModel()
-    SignInView(viewModel: viewModel)
+struct SignInView_Previews: PreviewProvider {
+    static var previews: some View {
+        ForEach(ColorScheme.allCases, id: \.self){
+            let viewModel = SignInViewModel()
+            SignInView(viewModel: viewModel)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .preferredColorScheme($0)
+        }
+    }
 }
 
