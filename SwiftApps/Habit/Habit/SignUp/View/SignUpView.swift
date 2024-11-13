@@ -23,11 +23,11 @@ struct SignUpView: View {
             ScrollView(showsIndicators: false) {
                 
                 VStack(alignment: .center){
-                    VStack(alignment: .center, spacing: 20) {
+                    VStack(alignment: .center, spacing: 12) {
                         Text("Sign Up")
                             .font(Font.system(.title).bold())
                             .padding(48)
-                            .foregroundColor(.orange)
+                            .foregroundColor(Color("textColor"))
                         
                         fullNameField
                         
@@ -47,7 +47,6 @@ struct SignUpView: View {
                     }
                      
                     Spacer()
-                    
                 }
                 
                 if case SignUpUIState.error(let error) = viewModel.uiState {
@@ -65,55 +64,66 @@ struct SignUpView: View {
 
 extension SignUpView {
     var fullNameField: some View {
-        TextField("Full Name", text: $fullName)
-            .padding(.horizontal)
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $fullName,
+                     placeholder: "Full Name",
+                     keyboardType: .default,
+                     error: "full name should have at least 4 characters",
+                     failure: fullName.count < 4,
+                     isSecure: false)
     }
 }
 
 extension SignUpView {
     var emailField: some View {
-        TextField("Email", text: $email)
-            .padding(.horizontal)
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $email,
+                     placeholder: "E-mail",
+                     keyboardType: .emailAddress,
+                     error: "e-mail is invalid",
+                     failure: !email.isEmail())
     }
 }
 
 extension SignUpView {
     var passwordField: some View {
-        SecureField("Password", text: $password)
-            .padding(.horizontal)
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $password,
+                     placeholder: "Password",
+                     keyboardType: .emailAddress,
+                     error: "password should have at least 8 characters",
+                     failure: password.count < 8,
+                     isSecure: true)
     }
 }
 
 extension SignUpView {
     var documentField: some View {
-        SecureField("Document", text: $document)
-            .padding(.horizontal)
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $document,
+                     placeholder: "Document",
+                     keyboardType: .numberPad,
+                     error: "document should have at least 11 characters",
+                     failure: document.count < 11,
+                     isSecure: false)
     }
 }
 
 extension SignUpView {
     var phoneField: some View {
-        SecureField("Phone", text: $phone)
-            .padding(.horizontal)
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $phone,
+                     placeholder: "Phone",
+                     keyboardType: .numberPad,
+                     error: "phone should have at least 8 characters",
+                     failure: phone.count < 8,
+                     isSecure: false)
     }
 }
 
 extension SignUpView {
     var birthdayField: some View {
-        SecureField("Birth Day", text: $birthday)
-            .padding(.horizontal)
-            .autocapitalization(.none)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+        EditTextView(text: $birthday,
+                     placeholder: "Birthday",
+                     keyboardType: .numberPad,
+                     error: "phone should have at least 8 characters",
+                     failure: birthday.count < 8,
+                     isSecure: false)
     }
 }
 
@@ -125,7 +135,6 @@ extension SignUpView {
             }
         }
         .pickerStyle(SegmentedPickerStyle())
-        .padding(.horizontal)
     }
 }
 
@@ -138,6 +147,13 @@ extension SignUpView {
     }
 }
 
-#Preview {
-    SignUpView(viewModel: SignUpViewModel())
+struct SignUpView_Previews: PreviewProvider {
+    static var previews: some View {
+        ForEach(ColorScheme.allCases, id: \.self){
+            let viewModel = SignUpViewModel()
+            SignUpView(viewModel: viewModel)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .preferredColorScheme($0)
+        }
+    }
 }
