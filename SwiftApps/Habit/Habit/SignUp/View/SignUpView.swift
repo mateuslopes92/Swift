@@ -8,14 +8,6 @@
 import SwiftUI
 
 struct SignUpView: View {
-
-    @State var fullName = ""
-    @State var email = ""
-    @State var password = ""
-    @State var document = ""
-    @State var phone = ""
-    @State var birthday = ""
-    @State var gender = Gender.male
     @ObservedObject var viewModel: SignUpViewModel
     
     var body: some View {
@@ -64,72 +56,76 @@ struct SignUpView: View {
 
 extension SignUpView {
     var fullNameField: some View {
-        EditTextView(text: $fullName,
-                     placeholder: "Full Name",
-                     keyboardType: .default,
+        EditTextView(text: $viewModel.fullName,
+                     placeholder: "Full Name *",
+                     keyboardType: .alphabet,
                      error: "full name should have at least 4 characters",
-                     failure: fullName.count < 4,
+                     failure: viewModel.fullName.count < 3,
                      isSecure: false)
     }
 }
 
 extension SignUpView {
     var emailField: some View {
-        EditTextView(text: $email,
-                     placeholder: "E-mail",
+        EditTextView(text: $viewModel.email,
+                     placeholder: "E-mail *",
                      keyboardType: .emailAddress,
                      error: "e-mail is invalid",
-                     failure: !email.isEmail())
+                     failure: !viewModel.email.isEmail())
     }
 }
 
 extension SignUpView {
     var passwordField: some View {
-        EditTextView(text: $password,
-                     placeholder: "Password",
+        EditTextView(text: $viewModel.password,
+                     placeholder: "Password *",
                      keyboardType: .emailAddress,
                      error: "password should have at least 8 characters",
-                     failure: password.count < 8,
+                     failure: viewModel.password.count < 8,
                      isSecure: true)
     }
 }
 
 extension SignUpView {
     var documentField: some View {
-        EditTextView(text: $document,
-                     placeholder: "Document",
+        EditTextView(text: $viewModel.document,
+                     placeholder: "CPF *",
                      keyboardType: .numberPad,
-                     error: "document should have at least 11 characters",
-                     failure: document.count < 11,
+                     error: "CPF should have at least 11 characters",
+                     failure: viewModel.document.count != 11,
                      isSecure: false)
+        // TODO mask
+        // TODO isDisabled
     }
 }
 
 extension SignUpView {
     var phoneField: some View {
-        EditTextView(text: $phone,
+        EditTextView(text: $viewModel.phone,
                      placeholder: "Phone",
                      keyboardType: .numberPad,
-                     error: "phone should have at least 8 characters",
-                     failure: phone.count < 8,
+                     error: "phone should have ddd + 9 characters",
+                     failure: viewModel.phone.count < 10 || viewModel.phone.count >= 12,
                      isSecure: false)
+        // TODO mask
     }
 }
 
 extension SignUpView {
     var birthdayField: some View {
-        EditTextView(text: $birthday,
+        EditTextView(text: $viewModel.birthday,
                      placeholder: "Birthday",
                      keyboardType: .numberPad,
-                     error: "phone should have at least 8 characters",
-                     failure: birthday.count < 8,
+                     error: "your birthday should have dd/mm/yyyy",
+                     failure: viewModel.birthday.count != 10,
                      isSecure: false)
+        // TODO mask
     }
 }
 
 extension SignUpView {
     var genderField: some View {
-        Picker("Gender", selection: $gender) {
+        Picker("Gender", selection: $viewModel.gender) {
             ForEach(Gender.allCases, id: \.self) { value in
                 Text(value.rawValue).tag(value)
             }
@@ -140,9 +136,20 @@ extension SignUpView {
 
 extension SignUpView {
     var saveButton: some View {
-        Button("Sign Up") {
-            viewModel.signUp()
-        }
+        LoadingButtonView(
+            text: "Sign Up",
+            action: {
+                viewModel.signUp()
+            },
+            disabled:
+                !viewModel.email.isEmail() ||
+                viewModel.password.count < 8 ||
+                viewModel.fullName.count < 3 ||
+                viewModel.birthday.count != 10 ||
+                viewModel.document.count < 11 ||
+                viewModel.phone.count < 10,
+            showProgress: viewModel.uiState == SignUpUIState.loading
+        )
         .padding(.top)
     }
 }
