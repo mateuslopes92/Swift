@@ -14,4 +14,8 @@ enum Gender: String, CaseIterable, Identifiable {
     var id: String {
         self.rawValue
     }
+    
+    var index: Self.AllCases.Index {
+        return Self.allCases.firstIndex(of: self) ?? 0
+    }
 }

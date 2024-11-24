@@ -18,7 +18,7 @@ struct SignUpView: View {
                     VStack(alignment: .center, spacing: 12) {
                         Text("Sign Up")
                             .font(Font.system(.title).bold())
-                            .padding(48)
+                            .padding(.bottom, 48)
                             .foregroundColor(Color("textColor"))
                         
                         fullNameField
