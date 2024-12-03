@@ -78,6 +78,9 @@ enum WebService {
                 if let data = data {
                     print("Error creating user")
                     print(String(data: data, encoding: .utf8))
+                    let jsonDecoder = JSONDecoder()
+                    let response = try? jsonDecoder.decode(SignUpResponse.self, from: data)
+                    print(response?.detail)
                 }
             }
         }
