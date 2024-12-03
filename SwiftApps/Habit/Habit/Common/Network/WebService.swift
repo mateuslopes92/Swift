@@ -59,16 +59,15 @@ enum WebService {
             }
             
             
-            
+            print(String(data: data, encoding: .utf8))
             print("response\n")
             print(response)
            
-
         }
         task.resume()
     }
     
-    static func postUser(request: SignUpRequest){
+    static func postUser(request: SignUpRequest, completion: @escaping (Bool?, ErrorResponse?) -> Void){
         call(path: .postUser, body: request){ result in
             switch result {
             case .success(let data):
@@ -77,10 +76,9 @@ enum WebService {
             case .failure(let error, let data):
                 if let data = data {
                     print("Error creating user")
-                    print(String(data: data, encoding: .utf8))
                     let jsonDecoder = JSONDecoder()
-                    let response = try? jsonDecoder.decode(SignUpResponse.self, from: data)
-                    print(response?.detail)
+                    let response = try? jsonDecoder.decode(ErrorResponse.self, from: data)
+                    completion(nil, response)
                 }
             }
         }
