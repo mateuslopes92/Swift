@@ -41,6 +41,7 @@ enum WebService {
         urlRequest.httpBody = jsonData
         
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            // running in background
             guard let data = data, error == nil else {
                 print("error: \(error?.localizedDescription ?? "Unknown error")")
                 completion(.failure(.internalServerError, nil))
@@ -73,6 +74,7 @@ enum WebService {
             case .success(let data):
                 print("User created successfully")
                 print(String(data: data, encoding: .utf8))
+                completion(true, nil)
             case .failure(let error, let data):
                 if let data = data {
                     print("Error creating user")

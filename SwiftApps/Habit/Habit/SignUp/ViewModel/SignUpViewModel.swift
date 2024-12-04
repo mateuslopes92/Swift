@@ -40,18 +40,26 @@ class SignUpViewModel: ObservableObject {
         formatter.dateFormat = "yyyy-MM-dd"
         let birthday = formatter.string(from: dateFormated)
         
+        // Main thread
         WebService.postUser(request: SignUpRequest(fullName: fullName, email: email, document: document, phone: phone, gender: gender.index, birthday: birthday, password: password)) { (successResponse, errorResponse) in
             
+            // non main thread
             if let error = errorResponse {
-                self.uiState = .error(error.detail)
+                // Main thread
+                DispatchQueue.main.async {
+                    self.uiState = .error(error.detail)
+                }
             }
             
+            if let success = successResponse {
+                DispatchQueue.main.async {
+                    if success {
+                        self.uiState = .success
+                        self.publisher.send(success)
+                    }
+                } 
+            }
         }
-        
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-         //   self.uiState = .success
-         //   self.publisher.send(true)
-        //}
     }
 }
 
