@@ -51,26 +51,26 @@ class SignUpViewModel: ObservableObject {
                 }
             }
             
-            if let success = successResponse {
-                WebService.signIn(request: SignInRequest(email: self.email, password: self.password)) {(successResponse, errorResponse) in
-                    
-                    // non main thread
-                    if let errorSignIn = errorResponse {
-                        // Main thread
-                        DispatchQueue.main.async {
-                            self.uiState = .error(errorSignIn.detail.message)
-                        }
-                    }
-                    
-                    if let successSignIn = successResponse {
-                        DispatchQueue.main.async {
-                            print(success)
-                            self.publisher.send(success)
-                            self.uiState = .success
-                        }
-                    }
-                }
-            }
+//            if let success = successResponse {
+//                WebService.signIn(request: SignInRequest(email: self.email, password: self.password)) {(successResponse, errorResponse) in
+//                    
+//                    // non main thread
+//                    if let errorSignIn = errorResponse {
+//                        // Main thread
+//                        DispatchQueue.main.async {
+//                            self.uiState = .error(errorSignIn.detail.message)
+//                        }
+//                    }
+//                    
+//                    if let successSignIn = successResponse {
+//                        DispatchQueue.main.async {
+//                            print(success)
+//                            self.publisher.send(success)
+//                            self.uiState = .success
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }
