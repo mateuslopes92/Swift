@@ -16,7 +16,11 @@ class SignInViewModel: ObservableObject {
     private let publisher = PassthroughSubject<Bool, Never>()
     private var cancellable: AnyCancellable?
     
-    init() {
+    private let interactor: SignInInteractor
+    
+    init(interactor: SignInInteractor) {
+        self.interactor = interactor
+        
         cancellable = publisher.sink { value in
             print("User created", value)
             if value {
@@ -32,7 +36,7 @@ class SignInViewModel: ObservableObject {
     func signIn() {
         self.uiState = .loading
         
-        WebService.signIn(request: SignInRequest(email: email, password: password)) {(successResponse, errorResponse) in
+        interactor.signIn(request: SignInRequest(email: email, password: password)) {(successResponse, errorResponse) in
             
             // non main thread
             if let error = errorResponse {
