@@ -5,6 +5,7 @@
 //  Created by Mateus Lopes on 09/12/24.
 //
 import Foundation
+import Combine
 
 // in kotlin for instance a interactor is called repository
 class SignInInteractor {
@@ -13,7 +14,7 @@ class SignInInteractor {
 }
 
 extension SignInInteractor {
-    func signIn(request: SignInRequest, completion: @escaping (SignInResponse?, SignInErrorResponse?) -> Void){
-        remote.signIn(request: request, completion: completion)
+    func signIn(request: SignInRequest) -> Future<SignInResponse, AppError> {
+        return remote.signIn(request: request)
     }
 }
