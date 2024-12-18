@@ -16,6 +16,8 @@ class SignInViewModel: ObservableObject {
     private let publisher = PassthroughSubject<Bool, Never>()
     private var cancellable: AnyCancellable?
     
+    private var cancelableRequest: AnyCancellable?
+    
     private let interactor: SignInInteractor
     
     init(interactor: SignInInteractor) {
@@ -31,29 +33,45 @@ class SignInViewModel: ObservableObject {
     
     deinit {
         cancellable?.cancel()
+        cancelableRequest?.cancel()
     }
     
     func signIn() {
         self.uiState = .loading
         
-        interactor.signIn(request: SignInRequest(email: email, password: password)) {(successResponse, errorResponse) in
-            
-            // non main thread
-            if let error = errorResponse {
-                // Main thread
-                DispatchQueue.main.async {
-                    self.uiState = .error(error.detail.message)
+        cancelableRequest = interactor.signIn(request: SignInRequest(email: email, password: password))
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch(completion){
+                    case .failure(let appError):
+                        self.uiState = SignInUIState.error(appError.message)
+                        break
+                    case .finished:
+                        break
                 }
+            } receiveValue: { success in
+                print(success)
+                self.uiState = .goToHomeScreen
             }
-            
-            if let success = successResponse {
-                DispatchQueue.main.async {
-                    print(success)
-                    self.uiState = .goToHomeScreen
-//                    self.publisher.send(success)
-                }
-            }
-        }
+
+        
+//        interactor.signIn(request: SignInRequest(email: email, password: password)) {(successResponse, errorResponse) in
+//            
+//            // non main thread
+//            if let error = errorResponse {
+//                // Main thread
+//                DispatchQueue.main.async {
+//                    
+//                }
+//            }
+//            
+//            if let success = successResponse {
+//                DispatchQueue.main.async {
+//                    
+////                    self.publisher.send(success)
+//                }
+//            }
+//        }
     }
 }
 
