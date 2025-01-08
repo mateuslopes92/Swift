@@ -9,7 +9,7 @@ import Combine
 
 // in kotlin for instance a interactor is called repository
 class SignInInteractor {
-    private let remote: RemoteDataSource = .shared
+    private let remote: SignInRemoteDataSource = .shared
 //    private let local: LocaleDataSource
 }
 

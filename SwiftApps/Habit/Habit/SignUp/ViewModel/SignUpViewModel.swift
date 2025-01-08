@@ -20,6 +20,19 @@ class SignUpViewModel: ObservableObject {
     @Published var uiState: SignUpUIState = .none
     var publisher = PassthroughSubject<Bool, Never>()
     
+    private var interactor: SignUpInteractor
+    private var cancelableSignUp: AnyCancellable?
+    private var cancelableSignIn: AnyCancellable?
+    
+    init(interactor: SignUpInteractor) {
+        self.interactor = interactor
+    }
+    
+    deinit {
+        cancelableSignUp?.cancel()
+        cancelableSignIn?.cancel()
+    }
+    
     func signUp() {
         self.uiState = .loading
         
@@ -29,7 +42,7 @@ class SignUpViewModel: ObservableObject {
         formatter.dateFormat = "dd/MM/yyyy"
         
         let dateFormated = formatter.date(from: birthday)
-
+        
         // date validation
         guard let dateFormated else {
             self.uiState = .error("Date invalid \(birthday)")
@@ -40,40 +53,50 @@ class SignUpViewModel: ObservableObject {
         formatter.dateFormat = "yyyy-MM-dd"
         let birthday = formatter.string(from: dateFormated)
         
-        // Main thread
-        WebService.postUser(request: SignUpRequest(fullName: fullName, email: email, document: document, phone: phone, gender: gender.index, birthday: birthday, password: password)) { (successResponse, errorResponse) in
-            
-            // non main thread
-            if let error = errorResponse {
-                // Main thread
-                DispatchQueue.main.async {
-                    self.uiState = .error(error.detail)
+        let signUpRequest = SignUpRequest(
+            fullName: fullName,
+            email: email,
+            document: document,
+            phone: phone,
+            gender: gender.index,
+            birthday: birthday,
+            password: password
+        )
+        
+        cancelableSignUp = interactor.postUser(signUpRequest: signUpRequest)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch(completion){
+                case .failure(let appError):
+                    self.uiState = .error(appError.message)
+                    break
+                    
+                case .finished:
+                    break
+                }
+            } receiveValue: { created in
+                if(created) {
+                    self.cancelableSignIn = self.interactor.signIn(request: SignInRequest(email: self.email, password: self.password))
+                        .receive(on: DispatchQueue.main)
+                        .sink { completion in
+                            switch completion {
+                            case .failure(let appError):
+                                self.uiState = .error(appError.message)
+                                break
+                                
+                            case .finished:
+                                break
+                            }
+                        } receiveValue: { successSignIn in
+                            print(successSignIn)
+                            self.uiState = .success
+                            self.publisher.send(created)
+                        }
                 }
             }
-            
-//            if let success = successResponse {
-//                WebService.signIn(request: SignInRequest(email: self.email, password: self.password)) {(successResponse, errorResponse) in
-//                    
-//                    // non main thread
-//                    if let errorSignIn = errorResponse {
-//                        // Main thread
-//                        DispatchQueue.main.async {
-//                            self.uiState = .error(errorSignIn.detail.message)
-//                        }
-//                    }
-//                    
-//                    if let successSignIn = successResponse {
-//                        DispatchQueue.main.async {
-//                            print(success)
-//                            self.publisher.send(success)
-//                            self.uiState = .success
-//                        }
-//                    }
-//                }
-//            }
-        }
     }
 }
+
 
 extension SignUpViewModel {
     func homeView() -> some View {
