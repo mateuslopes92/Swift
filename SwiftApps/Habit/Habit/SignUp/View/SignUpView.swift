@@ -157,7 +157,7 @@ extension SignUpView {
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
-            let viewModel = SignUpViewModel()
+            let viewModel = SignUpViewModel(interactor: SignUpInteractor())
             SignUpView(viewModel: viewModel)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .preferredColorScheme($0)

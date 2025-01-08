@@ -7,11 +7,11 @@
 import Foundation
 import Combine
 
-class RemoteDataSource {
+class SignInRemoteDataSource {
     // singleton pattern
     // only one instance on the entire application
     
-    static let shared = RemoteDataSource()
+    static let shared: SignInRemoteDataSource = SignInRemoteDataSource()
     
     // private constructor to avoid other classes to instance this class
     private init(){
