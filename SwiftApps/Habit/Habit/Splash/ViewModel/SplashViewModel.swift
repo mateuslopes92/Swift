@@ -6,15 +6,44 @@
 //
 
 import SwiftUI
+import Foundation
+import Combine
 
 class SplashViewModel: ObservableObject {
     @Published var uiState: SplashUIState = .loading
     
+    private var cancellableAuth: AnyCancellable?
+    private let interactor: SplashInteractor
+    
+    init(interactor: SplashInteractor) {
+        self.interactor = interactor
+    }
+    
+    deinit {
+        cancellableAuth?.cancel()
+    }
+    
     func onAppear() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            // dispatch after 2 secs
-            self.uiState = .goToSignInScreen
-        }
+        print("onAppear")
+        print(uiState)
+        cancellableAuth = interactor.fetchAuth()
+            .delay(for: .seconds(2), scheduler: RunLoop.main)
+            .receive(on: DispatchQueue.main)
+            .sink{ userAuth in
+                if(userAuth != nil){
+                    print(userAuth!)
+                }
+                
+                if userAuth == nil {
+                    self.uiState = .goToSignInScreen
+                }
+                else if(Date().timeIntervalSince1970 > Double(userAuth!.expires)) {
+                    // call refresh token api
+                    print("token expired")
+                } else {
+                    self.uiState = .goToHomeScreen
+                }
+            }
     }
 }
 
