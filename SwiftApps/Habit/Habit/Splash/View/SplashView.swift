@@ -13,14 +13,14 @@ struct SplashView: View {
     var body: some View {
         Group {
             switch viewModel.uiState {
-            case.loading:
-                loadingView()
-            case.goToSignInScreen:
-                viewModel.signInView()
-            case.goToHomeScreen:
-                Text("goToHomeScreen")
-            case.error(let msg):
-                loadingView(error: msg)
+                case.loading:
+                    loadingView()
+                case.goToSignInScreen:
+                    viewModel.signInView()
+                case.goToHomeScreen:
+                    Text("goToHomeScreen")
+                case.error(let msg):
+                    loadingView(error: msg)
             }
         }.onAppear(perform: viewModel.onAppear)
     }
@@ -51,7 +51,7 @@ extension SplashView {
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
-            let viewModel = SplashViewModel()
+            let viewModel = SplashViewModel(interactor: SplashInteractor())
             SplashView(viewModel: viewModel)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .preferredColorScheme($0)

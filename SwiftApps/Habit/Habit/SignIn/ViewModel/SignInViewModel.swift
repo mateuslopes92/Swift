@@ -51,6 +51,14 @@ class SignInViewModel: ObservableObject {
                 }
             } receiveValue: { success in
                 print(success)
+                let userAuth = UserAuth(
+                    idToken: success.accessToken,
+                    refreshToken: success.refreshToken,
+                    expires: Date().timeIntervalSince1970 + Double(success.expires),
+                    TokenType: success.tokenType
+                )
+                // saving values on local storage
+                self.interactor.insertAuth(userAuth: userAuth)
                 self.uiState = .goToHomeScreen
             }
 
