@@ -13,6 +13,7 @@ class SplashViewModel: ObservableObject {
     @Published var uiState: SplashUIState = .loading
     
     private var cancellableAuth: AnyCancellable?
+    private var cancellableRefresh: AnyCancellable?
     private let interactor: SplashInteractor
     
     init(interactor: SplashInteractor) {
@@ -21,6 +22,7 @@ class SplashViewModel: ObservableObject {
     
     deinit {
         cancellableAuth?.cancel()
+        cancellableRefresh?.cancel()
     }
     
     func onAppear() {
@@ -40,6 +42,28 @@ class SplashViewModel: ObservableObject {
                 else if(Date().timeIntervalSince1970 > Double(userAuth!.expires)) {
                     // call refresh token api
                     print("token expired")
+                    let request = RefreshRequest(token: userAuth!.refreshToken)
+                    self.cancellableRefresh = self.interactor.refreshToken(refreshRequest: request)
+                        .receive(on: DispatchQueue.main)
+                        .sink(receiveCompletion: { completion in
+                            switch(completion){
+                            case .failure(_):
+                                self.uiState = .goToSignInScreen
+                                break
+                            default:
+                                break
+                            }
+                        }, receiveValue: { success in
+                            let userAuth = UserAuth(
+                                idToken: success.accessToken,
+                                refreshToken: success.refreshToken,
+                                expires: Date().timeIntervalSince1970 + Double(success.expires),
+                                TokenType: success.tokenType
+                            )
+                            // saving values on local storage
+                            self.interactor.insertAuth(userAuth: userAuth)
+                            self.uiState = .goToHomeScreen
+                        })
                 } else {
                     self.uiState = .goToHomeScreen
                 }
