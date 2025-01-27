@@ -40,7 +40,9 @@ struct HabitView: View {
                                 //
                             }
                         }
-                    }.navigationTitle("My Habits")
+                    }
+                    .navigationTitle("My Habits")
+                    .padding(.horizontal, 16)
                 }
             }
         }
@@ -104,7 +106,6 @@ extension HabitView {
                 .stroke(Color.gray.opacity(0.3), lineWidth: 1)
         )
         .shadow(color: .gray.opacity(0.2), radius: 10, x: 0, y: 6)
-        .padding(.horizontal, 16)
         .padding(.top, 16)
     }
 }
@@ -113,6 +114,7 @@ extension HabitView {
     var addButton: some View {
         NavigationLink(destination: Text("Add Habit Screen").frame(width: .infinity, height: .infinity)){
             Label("Add Habit", systemImage: "plus.app")
+                .modifier(ButtonStyle())
         }.padding(.top, 16)
     }
 }
