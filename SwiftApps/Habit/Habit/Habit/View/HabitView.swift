@@ -34,10 +34,24 @@ struct HabitView: View {
                                     
                                     Text("No habits found :(")
                                 }
-                            } else if case HabitUIState.fullList = viewModel.uiState {
-                                //
-                            } else if case HabitUIState.error = viewModel.uiState {
-                                //
+                            } else if case HabitUIState.fullList(let rows) = viewModel.uiState {
+                                LazyVStack {
+                                    
+                                    ForEach(rows, content: HabitCardView.init(viewModel: ))
+                                    
+                                }
+                            } else if case HabitUIState.error(let msg) = viewModel.uiState {
+                                Text("")
+                                    .alert(isPresented: .constant(true)){
+                                        Alert(
+                                            title: Text("Ops! \(msg)"),
+                                            message: Text("Try again?"),
+                                            primaryButton: .default(Text("Yes")){
+                                                viewModel.onAppear()
+                                            },
+                                            secondaryButton: .cancel()
+                                        )
+                                    }
                             }
                         }
                     }
@@ -45,6 +59,8 @@ struct HabitView: View {
                     .padding(.horizontal, 16)
                 }
             }
+        }.onAppear(){
+            viewModel.onAppear()
         }
     }
 }
