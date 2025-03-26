@@ -40,6 +40,7 @@ class HabitViewModel: ObservableObject {
                         break
                 }
             }, receiveValue: { response in
+                print("Call of tasks")
                 if response.isEmpty {
                     self.uiState = .emptyList
                     
@@ -51,14 +52,14 @@ class HabitViewModel: ObservableObject {
                         response.map {
                             let lastDate = $0.lastDate?.toDate(sourcePattern: "yyyy-MM-dd'T'HH:mm:ss", destPattern: "dd/MM/yyyy HH:mm") ?? ""
                             
-                            let lastDateCompare = $0.lastDate?.toDate(sourcePattern: "yyyy-MM-dd'T'HH:mm:ss", destPattern: "dd/MM/yyyy HH:mm") ?? ""
-                            
                             var state = Color.green
                             self.title = "Thats good!"
                             self.subtitle = "Your habits are on track"
                             self.description = ""
                             
-                            if lastDate < Date().toString(destPattern: "dd/MM/yyyy HH:mm") {
+                            let lastDateCompare = $0.lastDate?.toDate(sourcePattern: "yyyy-MM-dd'T'HH:mm:ss") ?? Date()
+                            
+                            if lastDateCompare < Date() {
                                 state = Color.red
                                 self.title = "Attention!"
                                 self.subtitle = "Be more active!"
