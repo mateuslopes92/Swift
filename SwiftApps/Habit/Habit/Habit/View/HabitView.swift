@@ -138,7 +138,7 @@ extension HabitView {
 struct HabitView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
-            HomeViewRouter.makeHabitView()
+            HomeViewRouter.makeHabitView(viewModel: HabitViewModel(interactor: HabitInteractor()))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .preferredColorScheme($0)
         }
