@@ -8,61 +8,61 @@ import Foundation
 import SwiftUI
 
 struct HabitCardView: View {
-    
+
     @State private var action = false
-    
+
     let viewModel: HabitCardViewModel
-    
+
     var body: some View {
         ZStack(alignment: .trailing) {
             NavigationLink(
-                destination: HabitDetailView(viewModel: HabitDetailViewModel(id: viewModel.id, name: viewModel.name, label: viewModel.label)),
+                destination: HabitDetailView(viewModel: HabitDetailViewModel(id: viewModel.id, name: viewModel.name, label: viewModel.label)), // remove later
                 isActive: self.$action,
                 label: {
                     EmptyView()
                 }
             )
-            
+
             Button(
                 action: {self.action = true},
                 label: {
                     HStack {
                         Image(systemName: "pencil")
                             .padding(.horizontal, 8)
-                        
+
                         Spacer()
-                        
+
                         HStack(alignment: .top){
-                            
+
                             Spacer()
-                            
+
                             VStack(alignment: .leading, spacing: 4){
                                 Text(viewModel.name)
                                     .foregroundColor(Color.orange)
-                                
+
                                 Text(viewModel.label)
                                     .foregroundColor(Color("textColor"))
                                     .bold()
-                                
+
                                 Text(viewModel.date)
                                     .foregroundColor(Color("textColor"))
                                     .bold()
                             }.frame(maxWidth: 300, alignment: .leading)
-                            
+
                             Spacer()
-                            
+
                             VStack(alignment: .leading, spacing: 4){
                                 Text("Registered")
                                     .foregroundColor(Color.orange)
                                     .multilineTextAlignment(.leading)
                                     .bold()
-                                
+
                                 Text(viewModel.value)
                                     .foregroundColor(Color("textColor"))
                                     .multilineTextAlignment(.leading)
                                     .bold()
                             }
-                            
+
                             Spacer()
                         }
                         Spacer()
@@ -103,7 +103,7 @@ struct HabitCardView_Previews: PreviewProvider {
                                 state: .green
                             )
                     )
-                    
+
                     HabitCardView(
                         viewModel:
                             HabitCardViewModel(
