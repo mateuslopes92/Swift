@@ -27,7 +27,7 @@ class HabitViewModel: ObservableObject {
     }
     
     func onAppear() {
-//        self.uiState = .emptyList
+//       self.uiState = .emptyList
         
         cancelableRequest = interactor.fetchHabits()
             .receive(on: DispatchQueue.main)
@@ -72,7 +72,7 @@ class HabitViewModel: ObservableObject {
                                 date: String(lastDate),
                                 name: $0.name,
                                 label: $0.label,
-                                value: String($0.value),
+                                value: String($0.value ?? 0),
                                 state: state
                             )
                         }

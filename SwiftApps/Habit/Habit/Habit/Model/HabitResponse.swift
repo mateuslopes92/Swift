@@ -11,7 +11,7 @@ struct HabitResponse: Decodable {
     let name: String
     let label: String
     let iconUrl: String?
-    let value: Int
+    let value: Int?
     let lastDate: String?
     
     enum CodingKeys: String, CodingKey {

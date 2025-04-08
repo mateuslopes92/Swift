@@ -50,7 +50,9 @@ struct HabitDetailView: View {
             VStack {
                 LoadingButtonView(
                     text: "Save",
-                    action: {},
+                    action: {
+                        viewModel.save()
+                    },
                     disabled: self.viewModel.value.isEmpty,
                     showProgress: self.viewModel.uiState == .loading
                 )
@@ -76,7 +78,7 @@ struct HabitDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
             let viewModel = HabitDetailViewModel(
-                id: 1, name: "Study", label: "hours"
+                id: 1, name: "Study", label: "hours", interactor: HabitDetailInteractor()
             )
             HabitDetailView(viewModel: viewModel)
                 //.frame(maxWidth: .infinity, maxHeight: .infinity)
