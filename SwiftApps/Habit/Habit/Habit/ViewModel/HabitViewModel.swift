@@ -17,9 +17,15 @@ class HabitViewModel: ObservableObject {
     
     private let interactor: HabitInteractor
     private var cancelableRequest: AnyCancellable?
+    private var cancellableNotify: AnyCancellable?
+    private let habitPublisher = PassthroughSubject<Bool, Never>()
     
     init(interactor: HabitInteractor) {
         self.interactor = interactor
+        cancellableNotify = habitPublisher.sink(receiveValue: { saved in
+            print("saved \(saved)")
+            self.onAppear()
+        })
     }
     
     deinit {
@@ -27,7 +33,7 @@ class HabitViewModel: ObservableObject {
     }
     
     func onAppear() {
-//       self.uiState = .emptyList
+        self.uiState = .loading
         
         cancelableRequest = interactor.fetchHabits()
             .receive(on: DispatchQueue.main)
@@ -73,58 +79,12 @@ class HabitViewModel: ObservableObject {
                                 name: $0.name,
                                 label: $0.label,
                                 value: String($0.value ?? 0),
-                                state: state
+                                state: state,
+                                habitPublisher: self.habitPublisher
                             )
                         }
                     )
                 }
             })
-        
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            var rows: [HabitCardViewModel] = []
-//            
-//            rows.append(HabitCardViewModel(
-//                id: 1,
-//                icon: "https://placehold.co/600x400/000000/FFF",
-//                date: "01/01/2025",
-//                name: "Play guitar",
-//                label: "hours",
-//                value: "2",
-//                state: .green
-//            ))
-//            
-//            rows.append(HabitCardViewModel(
-//                id: 2,
-//                icon: "https://placehold.co/600x400/000000/FFF",
-//                date: "01/01/2025",
-//                name: "Walk",
-//                label: "km",
-//                value: "2",
-//                state: .green
-//            ))
-//            
-//            rows.append(HabitCardViewModel(
-//                id: 3,
-//                icon: "https://placehold.co/600x400/000000/FFF",
-//                date: "01/01/2025",
-//                name: "Walk",
-//                label: "km",
-//                value: "2",
-//                state: .green
-//            ))
-//            
-//            rows.append(HabitCardViewModel(
-//                id: 4,
-//                icon: "https://placehold.co/600x400/000000/FFF",
-//                date: "01/01/2025",
-//                name: "Walk",
-//                label: "km",
-//                value: "2",
-//                state: .green
-//            ))
-//            
-////            self.uiState = .fullList(rows)
-//            self.uiState = .error("error")
         }
 }

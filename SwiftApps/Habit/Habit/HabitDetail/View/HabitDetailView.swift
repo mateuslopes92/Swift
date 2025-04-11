@@ -71,6 +71,12 @@ struct HabitDetailView: View {
                 .padding(.horizontal, 16)
             }
             .padding(.bottom) // Keeps buttons within safe area
+        }.onAppear{
+            viewModel.$uiState.sink { uiState in
+                if uiState == .sucess {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            }.store(in: &viewModel.cancellables)
         }
     }
 }
