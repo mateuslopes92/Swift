@@ -51,7 +51,6 @@ class HabitDetailViewModel: ObservableObject {
                 }
             }, receiveValue: {created in
                 if created {
-                    self.uiState = .sucess
                     self.habitPublisher?.send(created)
                 }
             })

@@ -39,7 +39,7 @@ struct HabitView: View {
                                     
                                     ForEach(rows, content: HabitCardView.init(viewModel: ))
                                     
-                                }
+                                }.padding(.bottom, 16)
                             } else if case HabitUIState.error(let msg) = viewModel.uiState {
                                 Text("")
                                     .alert(isPresented: .constant(true)){
