@@ -4,11 +4,13 @@
 //
 //  Created by Mateus Lopes on 26/04/25.
 //
-
+import Foundation
 import SwiftUI
 
 struct ProfileView: View {
-    @State var fullName = ""
+    
+    @ObservedObject var viewModel: ProfileViewModel
+    
     @State var email = "Testmateus@test.com"
     @State var cpf = "123.456.789-00"
     @State var phone = "(44) 98765-4321"
@@ -24,10 +26,16 @@ struct ProfileView: View {
                         HStack {
                             Text("Name")
                             Spacer()
-                            TextField("Enter your name", text: $fullName)
+                            TextField("Enter your name", text: $viewModel.fullNameValidation.value)
                                 .multilineTextAlignment(.trailing)
                                 .keyboardType(.alphabet)
                         }
+                        if viewModel.fullNameValidation.failure {
+                            Text("Name should have more than 3 characters")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                       
                         
                         HStack {
                             Text("Email")
@@ -50,16 +58,27 @@ struct ProfileView: View {
                         HStack {
                             Text("Phone Number")
                             Spacer()
-                            TextField("Enter your phone number", text: $phone)
+                            TextField("Enter your phone number", text: $viewModel.phoneValidation.value)
                                 .multilineTextAlignment(.trailing)
                                 .keyboardType(.numberPad)
                         }
+                        if viewModel.phoneValidation.failure {
+                            Text("Enter with DDD + 8 or 9 digits")
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                        
                         
                         HStack {
                             Text("Birthday")
                             Spacer()
-                            TextField("Enter your birthday", text: $birthday)
+                            TextField("Enter your birthday", text: $viewModel.birthdayValidation.value)
                                 .multilineTextAlignment(.trailing)
+                        }
+                        if viewModel.birthdayValidation.failure {
+                            Text("Birthday should be in the format DD/MM/YYYY")
+                                .foregroundColor(.red)
+                                .font(.caption)
                         }
                         
                         NavigationLink(
@@ -87,7 +106,7 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
-            ProfileView()
+            ProfileView(viewModel: ProfileViewModel())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .preferredColorScheme($0)
         }

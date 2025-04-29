@@ -4,7 +4,7 @@
 //
 //  Created by Mateus Lopes on 27/04/25.
 //
-
+import Foundation
 import SwiftUI
 
 struct GenderSelectorView: View {
