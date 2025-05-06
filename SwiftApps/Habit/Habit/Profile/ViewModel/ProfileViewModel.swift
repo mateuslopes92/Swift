@@ -15,7 +15,7 @@ class ProfileViewModel: ObservableObject {
 class FullNameValidation: ObservableObject {
     @Published var failure = false
     
-    var value: String = "" {
+    var value: String = "Mateus Lopes" {
         didSet {
             failure = value.count < 3
         }
@@ -25,7 +25,7 @@ class FullNameValidation: ObservableObject {
 class PhoneValidation: ObservableObject {
     @Published var failure = false
     
-    var value: String = "" {
+    var value: String = "1234567890" {
         didSet {
             failure = value.count < 10 || value.count >= 12
         }
@@ -35,7 +35,7 @@ class PhoneValidation: ObservableObject {
 class BirthdayValidation: ObservableObject {
     @Published var failure = false
     
-    var value: String = "" {
+    var value: String = "27/03/1996" {
         didSet {
             failure = value.count != 10
         }

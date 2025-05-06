@@ -17,6 +17,10 @@ struct ProfileView: View {
     @State var birthday = "27/03/1996"
     @State var selectedGender: Gender? = .male
     
+    var disabledSave: Bool {
+        viewModel.fullNameValidation.failure || viewModel.phoneValidation.failure || viewModel.birthdayValidation.failure
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -98,7 +102,17 @@ struct ProfileView: View {
                     }
                 }
                 
-            }.navigationBarTitle(Text("Edit Profile"), displayMode: .automatic)
+            }
+            .navigationBarTitle(Text("Edit Profile"), displayMode: .automatic)
+            .navigationBarItems(trailing:
+                Button(
+                    action: {},
+                    label: {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.orange)
+                    }
+                ).opacity(disabledSave ? 0 : 1)
+            )
         }
     }
 }
