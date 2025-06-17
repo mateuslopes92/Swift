@@ -104,12 +104,24 @@ struct ProfileView: View {
                     .navigationBarTitle(Text("Edit Profile"), displayMode: .automatic)
                     .navigationBarItems(trailing:
                                             Button(
-                                                action: {},
+                                                action: {
+                                                    viewModel.updateUser()
+                                                },
                                                 label: {
-                                                    Image(systemName: "checkmark")
-                                                        .foregroundColor(.orange)
+                                                    if case ProfileUIState.updateLoading = viewModel.uiState {
+                                                        ProgressView()
+                                                    } else {
+                                                        Image(systemName: "checkmark")
+                                                            .foregroundColor(.orange)
+                                                    }
                                                 }
                                             ).opacity(disabledSave ? 0 : 1)
+                                            .alert(isPresented: .constant(viewModel.uiState == .updateSuccess)){
+                                                Alert(title: Text("Habit"), message: Text("User updated!"), dismissButton: .default(Text("Ok")) {
+                                                    viewModel.uiState = .none
+                                                })
+                                            }
+                                                
                     )
                 }
             }
@@ -118,7 +130,16 @@ struct ProfileView: View {
                 Text("")
                     .alert(isPresented: .constant(true)) {
                         Alert(title: Text("Habit"), message: Text(error), dismissButton: .default(Text("Ok")) {
-                            // handle button
+                            viewModel.uiState = .none
+                        })
+                    }
+            }
+            
+            if case ProfileUIState.updateError(let error) = viewModel.uiState {
+                Text("")
+                    .alert(isPresented: .constant(true)) {
+                        Alert(title: Text("Habit"), message: Text(error), dismissButton: .default(Text("Ok")) {
+                            viewModel.uiState = .none
                         })
                     }
             }

@@ -15,6 +15,7 @@ enum WebService {
         case habits = "/users/me/habits"
         case habitValues = "/users/me/habits/%d/values"
         case fetchUser = "/users/me"
+        case updateUser = "/users/%d"
     }
     
     enum ContentType: String {
