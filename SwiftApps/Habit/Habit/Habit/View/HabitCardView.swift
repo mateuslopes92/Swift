@@ -13,16 +13,27 @@ struct HabitCardView: View {
     @State private var action = false
 
     let viewModel: HabitCardViewModel
+    let isCharts: Bool
 
     var body: some View {
         ZStack(alignment: .trailing) {
-            NavigationLink(
-                destination: viewModel.habitDetailView(),
-                isActive: self.$action,
-                label: {
-                    EmptyView()
-                }
-            )
+            if isCharts {
+                NavigationLink(
+                    destination: viewModel.chartView(),
+                    isActive: self.$action,
+                    label: {
+                        EmptyView()
+                    }
+                )
+            } else {
+                NavigationLink(
+                    destination: viewModel.habitDetailView(),
+                    isActive: self.$action,
+                    label: {
+                        EmptyView()
+                    }
+                )
+            }
 
             Button(
                 action: {self.action = true},
@@ -76,10 +87,13 @@ struct HabitCardView: View {
                     .frame(alignment: .center)
                 }
             )
-            Rectangle()
-                .foregroundColor(viewModel.state)
-                .frame(width: 12)
-                .offset(x: 1, y: 0)
+            if !isCharts {
+                Rectangle()
+                    .foregroundColor(viewModel.state)
+                    .frame(width: 12)
+                    .offset(x: 1, y: 0)
+            }
+         
         }
         .background(
             RoundedRectangle(cornerRadius: 4)
@@ -107,7 +121,8 @@ struct HabitCardView_Previews: PreviewProvider {
                                 value: "2",
                                 state: .green,
                                 habitPublisher: PassthroughSubject<Bool, Never>()
-                            )
+                            ),
+                            isCharts: false
                     )
 
                     HabitCardView(
@@ -121,7 +136,8 @@ struct HabitCardView_Previews: PreviewProvider {
                                 value: "2",
                                 state: .green,
                                 habitPublisher: PassthroughSubject<Bool, Never>()
-                            )
+                            ),
+                            isCharts: false
                     )
                 }
                 .navigationTitle("Test")
