@@ -10,15 +10,20 @@ import SwiftUI
 import Charts
 
 struct ChartView: View {
+    @ObservedObject var viewModel: ChartViewModel
+    
     var body: some View {
-        Text("ChartView")
+        BoxChartView(entries: $viewModel.entries, dates: $viewModel.dates)
+            .frame(maxWidth: .infinity, maxHeight: 350)
     }
 }
+
+
 
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
-            ChartView()
+            ChartView(viewModel: ChartViewModel())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .preferredColorScheme($0)
         }
