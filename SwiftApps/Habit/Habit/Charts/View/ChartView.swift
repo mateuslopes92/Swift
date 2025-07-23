@@ -13,8 +13,38 @@ struct ChartView: View {
     @ObservedObject var viewModel: ChartViewModel
     
     var body: some View {
-        BoxChartView(entries: $viewModel.entries, dates: $viewModel.dates)
-            .frame(maxWidth: .infinity, maxHeight: 350)
+        ZStack {
+            if case ChartUIState.loading = viewModel.uiState{
+                ProgressView()
+            } else {
+                if case ChartUIState.emptyChart = viewModel.uiState {
+                    VStack {
+                        Image(systemName: "exclamationmark.octagon.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                        
+                        Text("No habits found :(")
+                    }
+                } else if case ChartUIState.error(let msg) = viewModel.uiState {
+                    Text("")
+                        .alert(isPresented: .constant(true)){
+                            Alert(
+                                title: Text("Ops! \(msg)"),
+                                message: Text("Try again?"),
+                                primaryButton: .default(Text("Yes")){
+                                    viewModel.onAppear()
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                } else {
+                    BoxChartView(entries: $viewModel.entries, dates: $viewModel.dates)
+                        .frame(maxWidth: .infinity, maxHeight: 350)
+                }
+               
+            }
+        }.onAppear(perform: viewModel.onAppear)
     }
 }
 
@@ -23,7 +53,7 @@ struct ChartView: View {
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
-            ChartView(viewModel: ChartViewModel())
+            HabitCardViewRouter.makeChartView(id: 1)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .preferredColorScheme($0)
         }
