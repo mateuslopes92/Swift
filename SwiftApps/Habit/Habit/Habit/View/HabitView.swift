@@ -133,7 +133,7 @@ extension HabitView {
 
 extension HabitView {
     var addButton: some View {
-        NavigationLink(destination: Text("Add Habit Screen").frame(width: .infinity, height: .infinity)){
+        NavigationLink(destination: viewModel.habitCreateView()){
             Label("Add Habit", systemImage: "plus.app")
                 .modifier(ButtonStyle())
         }.padding(.top, 16)

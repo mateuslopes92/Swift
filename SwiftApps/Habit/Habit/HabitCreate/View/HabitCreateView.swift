@@ -10,6 +10,8 @@ struct HabitCreateView: View {
     @ObservedObject var viewModel: HabitCreateViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @State private var shouldPresentCamera = false
+    
     init(viewModel: HabitCreateViewModel) {
         self.viewModel = viewModel
     }
@@ -19,7 +21,7 @@ struct HabitCreateView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .center, spacing: 12) {
                     Button(action: {
-                        
+                        self.shouldPresentCamera = true
                     }, label: {
                         VStack {
                                 Image(systemName: "camera.fill")
