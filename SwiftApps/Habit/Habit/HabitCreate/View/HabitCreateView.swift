@@ -33,7 +33,11 @@ struct HabitCreateView: View {
                                     .foregroundColor(Color.orange)
                             }
                         }
-                    ).padding(.bottom, 16)
+                    )
+                    .padding(.bottom, 16)
+                    .sheet(isPresented: $shouldPresentCamera) {
+                        ImagePickerView(sourceType: .photoLibrary)
+                    }
                  
                 }
                 
