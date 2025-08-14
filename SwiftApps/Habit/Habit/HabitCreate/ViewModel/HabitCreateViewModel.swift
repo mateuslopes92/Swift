@@ -13,6 +13,8 @@ class HabitCreateViewModel: ObservableObject {
     @Published var uiState: HabitDetailUIState = .none
     @Published var name = ""
     @Published var label = ""
+    @Published var image: Image? = Image(systemName: "camera.fill")
+    @Published var imageData: Data? = nil
     
     private var cancellable: AnyCancellable?
     var cancellables = Set<AnyCancellable>()
