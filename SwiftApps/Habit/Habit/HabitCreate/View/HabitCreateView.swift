@@ -96,7 +96,7 @@ struct HabitCreateView: View {
             .padding(.bottom) // Keeps buttons within safe area
         }.onAppear{
             viewModel.$uiState.sink { uiState in
-                if uiState == .sucess {
+                if uiState == .success {
                     self.presentationMode.wrappedValue.dismiss()
                 }
             }.store(in: &viewModel.cancellables)
@@ -107,7 +107,7 @@ struct HabitCreateView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
             let viewModel = HabitCreateViewModel(
-                interactor: HabitDetailInteractor()
+                interactor: HabitCreateInteractor()
             )
             HabitCreateView(viewModel: viewModel)
                 //.frame(maxWidth: .infinity, maxHeight: .infinity)

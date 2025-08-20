@@ -10,6 +10,6 @@ import Foundation
 enum HabitDetailUIState: Equatable {
     case none
     case loading
-    case sucess
+    case success
     case error(String)
 }
