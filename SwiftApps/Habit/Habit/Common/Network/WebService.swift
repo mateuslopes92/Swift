@@ -21,6 +21,7 @@ enum WebService {
     enum ContentType: String {
         case json = "application/json"
         case formUrlEncoded = "application/x-www-form-urlencoded"
+        case multipart = "multipart/form-data"
     }
     
     enum Method: String {
@@ -52,6 +53,7 @@ enum WebService {
         method: Method,
         contentType: ContentType,
         data: Data?,
+        boundary: String = "",
         completion: @escaping (Result) -> Void
     ){
         guard var urlRequest = completeUrl(path: path) else { return }
@@ -60,6 +62,12 @@ enum WebService {
             .sink { userAuth in
                 if let userAuth = userAuth {
                     urlRequest.setValue("\(userAuth.TokenType) \(userAuth.idToken)", forHTTPHeaderField: "Authorization")
+                }
+                
+                if contentType == .multipart {
+                    urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+                } else {
+                    urlRequest.setValue(contentType.rawValue, forHTTPHeaderField: "Content-Type")
                 }
                 
                 urlRequest.httpMethod = method.rawValue
@@ -143,13 +151,16 @@ enum WebService {
     public static func call(path: Endpoint,
                             method: Method = .post,
                             params: [URLQueryItem],
+                            data: Data? = nil,
                             completion: @escaping (Result) -> Void) {
         guard let urlRequest = completeUrl(path: path.rawValue) else { return }
         
         guard let absoluteUrl = urlRequest.url?.absoluteString else { return }
         var components = URLComponents(string: absoluteUrl)
         components?.queryItems = params
+        
+        let boundary = "Boundary-\(NSUUID().uuidString)"
            
-        call(path: path.rawValue, method: method, contentType: .formUrlEncoded, data: components?.query?.data(using: .utf8), completion: completion)
+        call(path: path.rawValue, method: method, contentType: data != nil ? .multipart : .formUrlEncoded, data: components?.query?.data(using: .utf8), boundary: boundary, completion: completion)
     }
 }
