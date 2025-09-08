@@ -61,7 +61,9 @@ extension SignUpView {
                      keyboardType: .alphabet,
                      error: "full name should have at least 4 characters",
                      failure: viewModel.fullName.count < 3,
-                     isSecure: false)
+                     isSecure: false,
+                     autoCapitalization: .words
+        )
     }
 }
 
