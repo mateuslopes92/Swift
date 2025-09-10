@@ -92,6 +92,7 @@ extension SignUpView {
     var documentField: some View {
         EditTextView(text: $viewModel.document,
                      placeholder: "CPF *",
+                     mask: "###.###.###-##",
                      keyboardType: .numberPad,
                      error: "CPF should have at least 11 characters",
                      failure: viewModel.document.count != 11,
