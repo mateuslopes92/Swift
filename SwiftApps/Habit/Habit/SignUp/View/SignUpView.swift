@@ -95,7 +95,7 @@ extension SignUpView {
                      mask: "###.###.###-##",
                      keyboardType: .numberPad,
                      error: "CPF should have at least 11 characters",
-                     failure: viewModel.document.count != 11,
+                     failure: viewModel.document.count != 14,
                      isSecure: false)
         // TODO mask
         // TODO isDisabled
@@ -106,9 +106,10 @@ extension SignUpView {
     var phoneField: some View {
         EditTextView(text: $viewModel.phone,
                      placeholder: "Phone",
+                     mask: "(##) ####-####",
                      keyboardType: .numberPad,
                      error: "phone should have ddd + 9 characters",
-                     failure: viewModel.phone.count < 10 || viewModel.phone.count >= 12,
+                     failure: viewModel.phone.count < 14 || viewModel.phone.count > 15,
                      isSecure: false)
         // TODO mask
     }
@@ -118,6 +119,7 @@ extension SignUpView {
     var birthdayField: some View {
         EditTextView(text: $viewModel.birthday,
                      placeholder: "Birthday",
+                     mask: "##/##/####",
                      keyboardType: .numberPad,
                      error: "your birthday should have dd/mm/yyyy",
                      failure: viewModel.birthday.count != 10,
@@ -149,8 +151,8 @@ extension SignUpView {
                 viewModel.password.count < 8 ||
                 viewModel.fullName.count < 3 ||
                 viewModel.birthday.count != 10 ||
-                viewModel.document.count < 11 ||
-                viewModel.phone.count < 10,
+                viewModel.document.count < 14 ||
+                viewModel.phone.count < 14 || viewModel.phone.count > 15,
             showProgress: viewModel.uiState == SignUpUIState.loading
         )
         .padding(.top)

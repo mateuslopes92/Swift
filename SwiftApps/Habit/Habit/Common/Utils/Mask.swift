@@ -27,8 +27,17 @@ class Mask {
         
         var _mask = mask
         
+        if(_mask == "(##) ####-####"){
+            if(value.count >= 14 && value.characterAtIndex(index: 5) == "9"){
+                _mask = "(##) #####-####"
+            }
+        }
+        
         if (str <= oldString){ // deleting chars with keyboard
             isUpdating = true
+            if(_mask == "(##) #####-####" && value.count == 14){
+                _mask = "(##) ####-####"
+            }
         }
         
         if(isUpdating || value.count == mask.count){
@@ -43,10 +52,22 @@ class Mask {
                 cpfWithMask = cpfWithMask + String(char)
                 continue
             }
+            
+            let unamed = str.characterAtIndex(index: i)
+            guard let char = unamed else { break }
+            
+            cpfWithMask = cpfWithMask + String(char)
+            
+            i = i + 1
         }
         
-        i = i + 1
-           
+        isUpdating = true
+        
+        if(cpfWithMask == "(0"){
+            text = ""
+            return
+        }
+        
         text = cpfWithMask
     }
 }
