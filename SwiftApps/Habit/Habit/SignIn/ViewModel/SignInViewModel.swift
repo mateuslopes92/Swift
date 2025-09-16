@@ -19,9 +19,11 @@ class SignInViewModel: ObservableObject {
     private var cancelableRequest: AnyCancellable?
     
     private let interactor: SignInInteractor
+    private let homeViewModel: HomeViewModel
     
-    init(interactor: SignInInteractor) {
+    init(interactor: SignInInteractor, homeViewModel: HomeViewModel) {
         self.interactor = interactor
+        self.homeViewModel = homeViewModel
         
         cancellable = publisher.sink { value in
             print("User created", value)
@@ -85,7 +87,7 @@ class SignInViewModel: ObservableObject {
 
 extension SignInViewModel {
     func homeView() -> some View {
-        SignInViewRouter.makeHomeView()
+        SignInViewRouter.makeHomeView(homeViewModel: homeViewModel)
     }
 }
 

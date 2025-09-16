@@ -130,7 +130,7 @@ extension SignInView {
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(ColorScheme.allCases, id: \.self){
-            let viewModel = SignInViewModel(interactor: SignInInteractor())
+            let viewModel = SignInViewModel(interactor: SignInInteractor(), homeViewModel: HomeViewModel())
             SignInView(viewModel: viewModel)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .preferredColorScheme($0)
