@@ -36,7 +36,7 @@ struct HabitCreateView: View {
                     )
                     .padding(.bottom, 16)
                     .sheet(isPresented: $shouldPresentCamera) {
-                        ImagePickerView(image: self.$viewModel.image, imageData: self.$viewModel.imageData, isPresented: $shouldPresentCamera, sourceType: .photoLibrary)
+                        ImagePickerView(image: self.$viewModel.image, imageData: self.$viewModel.imageData, isPresented: $shouldPresentCamera, sourceType: .camera)
                     }
                  
                 }
