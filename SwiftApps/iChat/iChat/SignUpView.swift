@@ -1,21 +1,36 @@
 //
-//  ContentView.swift
+//  SignUpView.swift
 //  iChat
 //
-//  Created by Mateus Lopes on 01/11/25.
+//  Created by Mateus Lopes on 03/11/25.
 //
 
 import SwiftUI
 
-struct SignInView: View {
-    @StateObject var viewModel: SignInViewModel = SignInViewModel()
-
+struct SignUpView: View {
+    @StateObject var viewModel: SignUpViewModel = SignUpViewModel()
+    
     var body: some View {
         VStack {
             Image("chat_logo")
                 .resizable()
                 .scaledToFit()
                 .padding()
+            
+            TextField("Name", text: $viewModel.name)
+                .autocapitalization(.none)
+                .disableAutocorrection(false)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(24.0)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24.0)
+                        .strokeBorder(
+                            Color(UIColor.separator),
+                            style: StrokeStyle(lineWidth: 1.0)
+                        )
+                )
+                .padding(.bottom, 10)
             
             TextField("E-mail", text: $viewModel.email)
                 .autocapitalization(.none)
@@ -49,7 +64,7 @@ struct SignInView: View {
                 .padding(.bottom, 30)
             
             Button{
-                viewModel.signIn()
+                viewModel.signUp()
             } label: {
                 Text("Login")
                     .frame(maxWidth: .infinity)
@@ -78,5 +93,5 @@ struct SignInView: View {
 }
 
 #Preview {
-    SignInView()
+    SignUpView()
 }
