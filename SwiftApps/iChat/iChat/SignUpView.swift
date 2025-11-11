@@ -89,6 +89,7 @@ struct SignUpView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 32)
         .background(Color.init(red: 240 / 255, green: 231 / 255, blue: 210 / 255))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
