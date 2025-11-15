@@ -52,7 +52,7 @@ struct SignInView: View {
                 Button{
                     viewModel.signIn()
                 } label: {
-                    Text("Login")
+                    Text("Sign In")
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color("GreenColor"))

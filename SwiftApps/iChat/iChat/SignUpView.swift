@@ -66,7 +66,7 @@ struct SignUpView: View {
             Button{
                 viewModel.signUp()
             } label: {
-                Text("Login")
+                Text("Sign Up")
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color("GreenColor"))
@@ -75,15 +75,7 @@ struct SignUpView: View {
                     
             }
             
-            Divider()
-                .padding()
-            
-            Button{
-                print("Clicked")
-            } label: {
-                Text("Dont have an account? Click here")
-                    .foregroundColor(Color.black)
-            }
+        
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
