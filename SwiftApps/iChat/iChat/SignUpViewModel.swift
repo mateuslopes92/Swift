@@ -16,18 +16,23 @@ class SignUpViewModel: ObservableObject {
     @Published var formInvalid: Bool = false
     var alertText: String = ""
     
+    @Published var isLoading: Bool = false
+    
     func signUp(){
-        print("name: \(name) email: \(email), password: \(password)")
+        isLoading = true
+        
         Auth.auth().createUser(withEmail: email, password: password) {
             result, err in
             
             guard let user = result?.user, err == nil else {
                 self.formInvalid = true
                 self.alertText = err?.localizedDescription ?? "Unknown Error"
-                print(err?.localizedDescription)
+                
+                self.isLoading = false
                 return
             }
             
+            self.isLoading = false
             print("User created on Firebase: \(user.email ?? "Unknown email")")
         }
     }
