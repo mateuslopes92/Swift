@@ -74,8 +74,11 @@ struct SignUpView: View {
                     .cornerRadius(24.0)
                     
             }
+            .alert(isPresented: $viewModel.formInvalid) {
+                Alert(title: Text(viewModel.alertText))
+            }
             
-        
+            
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
