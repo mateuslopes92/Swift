@@ -6,7 +6,7 @@
 //
 import Foundation
 import Combine
-import SwiftUICore
+import SwiftUI
 
 class HabitViewModel: ObservableObject {
     @Published var uiState: HabitUIState = .loading
