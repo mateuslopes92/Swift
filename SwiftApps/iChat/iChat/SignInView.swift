@@ -52,13 +52,20 @@ struct SignInView: View {
                 Button{
                     viewModel.signIn()
                 } label: {
-                    Text("Sign In")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color("GreenColor"))
-                        .foregroundColor(Color.white)
-                        .cornerRadius(24.0)
-                    
+                    if viewModel.isLoading {
+                        ProgressView()
+                    } else {
+                        Text("Sign In")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("GreenColor"))
+                            .foregroundColor(Color.white)
+                            .cornerRadius(24.0)
+                        
+                        }
+                    }
+                    .alert(isPresented: $viewModel.formInvalid) {
+                        Alert(title: Text(viewModel.alertText))
                 }
                 
                 Divider()
