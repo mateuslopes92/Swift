@@ -13,6 +13,8 @@ class SignUpViewModel: ObservableObject {
     var email: String = ""
     var password: String = ""
     
+    @Published var image: UIImage = UIImage()
+    
     @Published var formInvalid: Bool = false
     var alertText: String = ""
     
