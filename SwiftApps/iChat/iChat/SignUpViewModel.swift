@@ -7,6 +7,7 @@
 import Foundation
 import Combine
 import FirebaseAuth
+import FirebaseStorage
 
 class SignUpViewModel: ObservableObject {
     var name: String = ""
@@ -21,6 +22,12 @@ class SignUpViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     
     func signUp(){
+        if(image.size.width <= 0){
+            formInvalid = true
+            alertText = "Select a profile image"
+            return
+        }
+        
         isLoading = true
         
         Auth.auth().createUser(withEmail: email, password: password) {
@@ -36,6 +43,27 @@ class SignUpViewModel: ObservableObject {
             
             self.isLoading = false
             print("User created on Firebase: \(user.email ?? "Unknown email")")
+            
+            self.uploadPhoto()
+        }
+    }
+    
+    private func uploadPhoto(){
+        let filename = UUID().uuidString
+        
+        guard let data = image.jpegData(compressionQuality: 0.2) else { return }
+        
+        let newMetadata = StorageMetadata()
+        newMetadata.contentType = "image/jpeg"
+        
+        let ref = Storage.storage().reference(withPath: "/images/\(filename).jpg")
+        
+        ref.putData(data, metadata: newMetadata){ metadata, error in
+            ref.downloadURL{ url, error in
+                self.isLoading = false
+                print("Photo created \(url)")
+                
+            }
         }
     }
 }
