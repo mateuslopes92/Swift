@@ -23,12 +23,12 @@ class SignUpViewModel: ObservableObject {
     
     func signUp(){
         if(image.size.width <= 0){
-            formInvalid = true
-            alertText = "Select a profile image"
+            self.formInvalid = true
+            self.alertText = "Select a profile image"
             return
         }
         
-        isLoading = true
+        self.isLoading = true
         
         Auth.auth().createUser(withEmail: email, password: password) {
             result, err in
