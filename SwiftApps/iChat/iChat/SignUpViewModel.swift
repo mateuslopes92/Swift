@@ -59,9 +59,13 @@ class SignUpViewModel: ObservableObject {
         let ref = Storage.storage().reference(withPath: "/images/\(filename).jpg")
         
         ref.putData(data, metadata: newMetadata){ metadata, error in
-            ref.downloadURL{ url, error in
+            ref.downloadURL{ url, err in
+                if(err != nil){
+                    print("Error uploading photo \(err?.localizedDescription, default: "Error description not available")")
+                }
+                
                 self.isLoading = false
-                print("Photo created \(url)")
+                print("Photo created \(url, default: "Photo not uploaded")")
                 
             }
         }
