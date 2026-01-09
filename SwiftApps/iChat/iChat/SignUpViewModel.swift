@@ -8,6 +8,7 @@ import Foundation
 import Combine
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseFirestore
 
 class SignUpViewModel: ObservableObject {
     @Published var name: String = ""
@@ -65,10 +66,29 @@ class SignUpViewModel: ObservableObject {
                 }
                 
                 self.isLoading = false
+                
+                guard let url = url else { return }
                 print("Photo created \(url, default: "Photo not uploaded")")
                 
+                self.createUser(photoURL: url)
             }
         }
+    }
+    
+    private func createUser(photoURL: URL){
+        Firestore.firestore().collection("users")
+            .document()
+            .setData([
+                "name": self.name,
+                "uuid": Auth.auth().currentUser!.uid,
+                "profileUrl": photoURL.absoluteString
+            ]) { err in
+                self.isLoading = false
+                if err != nil {
+                    print(err!.localizedDescription)
+                    return
+                }
+            }
     }
 }
 
