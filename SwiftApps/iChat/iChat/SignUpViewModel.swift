@@ -10,9 +10,9 @@ import FirebaseAuth
 import FirebaseStorage
 
 class SignUpViewModel: ObservableObject {
-    var name: String = ""
-    var email: String = ""
-    var password: String = ""
+    @Published var name: String = ""
+    @Published var email: String = ""
+    @Published var password: String = ""
     
     @Published var image: UIImage = UIImage()
     
