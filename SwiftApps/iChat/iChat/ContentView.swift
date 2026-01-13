@@ -11,8 +11,7 @@ struct ContentView: View {
     
     var body: some View {
         if viewModel.isLogged {
-            // Message screen
-            Text("Message app")
+            MessagesView()
         } else {
             SignInView()
         }
