@@ -16,7 +16,7 @@ struct MessagesView: View {
                 Text("Messages here")
             }.toolbar {
                 ToolbarItem(id: "contacts", placement: .topBarTrailing){
-                    NavigationLink("Contacts", destination: Text("Contacts"))
+                    NavigationLink("Contacts", destination: ContactsView())
                 }
                 ToolbarItem(id: "logout", placement: .topBarTrailing){
                     Button("Logout"){
