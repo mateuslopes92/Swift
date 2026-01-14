@@ -11,10 +11,19 @@ struct MessagesView: View {
     @StateObject var viewModel = MessagesViewModel()
     
     var body: some View {
-        Button {
-            viewModel.logout()
-        } label: {
-            Text("Logout")
+        NavigationView {
+            VStack {
+                Text("Messages here")
+            }.toolbar {
+                ToolbarItem(id: "contacts", placement: .topBarTrailing){
+                    NavigationLink("Contacts", destination: Text("Contacts"))
+                }
+                ToolbarItem(id: "logout", placement: .topBarTrailing){
+                    Button("Logout"){
+                        viewModel.logout()
+                    }
+                }
+            }
         }
     }
 }
