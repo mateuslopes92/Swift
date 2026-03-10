@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct MessagesView: View {
-    @StateObject var viewModel = MessagesViewModel()
+struct ConversationsView: View {
+    @StateObject var viewModel = ConversationsViewModel()
     
     var body: some View {
         NavigationView {
@@ -29,5 +29,5 @@ struct MessagesView: View {
 }
 
 #Preview {
-    MessagesView()
+    ConversationsView()
 }

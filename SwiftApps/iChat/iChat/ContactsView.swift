@@ -35,6 +35,7 @@ struct ContactRow: View {
             
             Text(contact.name)
         }
+        .frame(width: .infinity)
     }
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import FirebaseAuth
 
-class MessagesViewModel: ObservableObject {
+class ConversationsViewModel: ObservableObject {
     func logout() {
         try? Auth.auth().signOut()
     }
