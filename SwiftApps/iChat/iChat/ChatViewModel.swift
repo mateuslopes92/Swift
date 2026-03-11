@@ -16,7 +16,7 @@ class ChatViewModel: ObservableObject {
         Message(uuid: UUID(), text: "How are you doing?", isMe: false),
         Message(uuid: UUID(), text: "All good?", isMe: false),
         Message(uuid: UUID(), text: "All good!", isMe: true),
-        Message(uuid: UUID(), text: "asdasdasd!", isMe: false),
+        Message(uuid: UUID(), text: "asdasdasdajsfoajsfoiasfjioas asfjaiosfjioasjfij asjif ioasjfioas jioj!", isMe: false),
         Message(uuid: UUID(), text: "asdasdasd!", isMe: false),
     ]
     
