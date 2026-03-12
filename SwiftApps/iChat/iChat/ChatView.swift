@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ChatView: View {
+    let username: String
+    
     @StateObject var viewModel = ChatViewModel()
     
     var body: some View {
@@ -46,6 +48,8 @@ struct ChatView: View {
             }
             .padding(8.0)
         }
+        .navigationTitle(username)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -66,5 +70,5 @@ struct MessageRow: View {
 }
 
 #Preview {
-    ChatView()
+    ChatView(username: "Test User")
 }
