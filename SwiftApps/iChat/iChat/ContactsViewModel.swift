@@ -11,8 +11,15 @@ import FirebaseFirestore
 
 class ContactsViewModel: ObservableObject {
     @Published var contacts: [Contact] = []
+    @Published var isLoading = false
+    
+    var isLoaded = false
     
     func fetchContacts() {
+        if isLoaded { return }
+        
+        isLoading = true
+        
         Firestore.firestore().collection("users")
             .getDocuments { (snapshot, error) in
                 if let error = error {
@@ -27,6 +34,8 @@ class ContactsViewModel: ObservableObject {
                             )
                         )
                     }
+                    self.isLoaded = true
+                    self.isLoading = false
                 }
             }
     }
