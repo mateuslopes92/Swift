@@ -76,11 +76,13 @@ class SignUpViewModel: ObservableObject {
     }
     
     private func createUser(photoURL: URL){
+        let id = Auth.auth().currentUser!.uid
+        
         Firestore.firestore().collection("users")
-            .document()
+            .document(id)
             .setData([
                 "name": self.name,
-                "uuid": Auth.auth().currentUser!.uid,
+                "uuid": id,
                 "profileUrl": photoURL.absoluteString
             ]) { err in
                 self.isLoading = false
