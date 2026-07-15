@@ -9,19 +9,17 @@ import SwiftUI
 
 struct ConversationsView: View {
     @StateObject var viewModel = ConversationsViewModel()
-    
+
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Messages here")
-            }.toolbar {
-                ToolbarItem(id: "contacts", placement: .topBarTrailing){
-                    NavigationLink("Contacts", destination: ContactsView())
-                }
-                ToolbarItem(id: "logout", placement: .topBarTrailing){
-                    Button("Logout"){
-                        viewModel.logout()
-                    }
+        VStack {
+            Text("Messages here")
+        }.toolbar {
+            ToolbarItem(id: "contacts", placement: .topBarTrailing){
+                NavigationLink("Contacts", destination: ContactsView())
+            }
+            ToolbarItem(id: "logout", placement: .topBarTrailing){
+                Button("Logout"){
+                    viewModel.logout()
                 }
             }
         }

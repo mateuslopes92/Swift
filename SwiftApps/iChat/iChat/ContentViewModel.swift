@@ -14,7 +14,9 @@ class ContentViewModel: ObservableObject {
     
     func onAppear() {
         Auth.auth().addStateDidChangeListener { (auth, user) in
-            self.isLogged = user != nil
+            DispatchQueue.main.async {
+                self.isLogged = user != nil
+            }
         }
     }
 }
