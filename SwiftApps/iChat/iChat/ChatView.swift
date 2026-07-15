@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ChatView: View {
+    
+    let toId: String
     let username: String
     
     @StateObject var viewModel = ChatViewModel()
@@ -70,5 +72,5 @@ struct MessageRow: View {
 }
 
 #Preview {
-    ChatView(username: "Test User")
+    ChatView(toId: UUID().uuidString, username: "Test User")
 }
