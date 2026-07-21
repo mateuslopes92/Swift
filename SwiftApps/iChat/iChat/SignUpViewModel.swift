@@ -77,6 +77,7 @@ class SignUpViewModel: ObservableObject {
                 }
                 
                 guard let url = url else { return }
+                print("Photo created \(url, default: "Photo not uploaded")")
                 
                 self.createUser(photoURL: url)
             }
