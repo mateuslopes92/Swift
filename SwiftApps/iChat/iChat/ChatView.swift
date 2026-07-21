@@ -37,7 +37,7 @@ struct ChatView: View {
                     )
                 
                 Button{
-                    //
+                    viewModel.sendMessage(toId: toId)
                 } label: {
                     Text("Send")
                         .padding()
