@@ -60,15 +60,23 @@ class SignUpViewModel: ObservableObject {
         let ref = Storage.storage().reference(withPath: "/images/\(filename).jpg")
         
         ref.putData(data, metadata: newMetadata){ metadata, error in
+            if let error = error {
+                self.formInvalid = true
+                self.alertText = "Failed to upload photo: \(error.localizedDescription)"
+                self.isLoading = false
+                return
+            }
+            
             ref.downloadURL{ url, err in
-                if(err != nil){
-                    print("Error uploading photo \(err?.localizedDescription, default: "Error description not available")")
-                }
-                
                 self.isLoading = false
                 
+                if let err = err {
+                    self.formInvalid = true
+                    self.alertText = "Failed to upload photo: \(err.localizedDescription)"
+                    return
+                }
+                
                 guard let url = url else { return }
-                print("Photo created \(url, default: "Photo not uploaded")")
                 
                 self.createUser(photoURL: url)
             }
