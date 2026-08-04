@@ -52,6 +52,9 @@ struct ChatView: View {
         }
         .navigationTitle(username)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            viewModel.onAppear(toId: toId)
+        }
     }
 }
 
