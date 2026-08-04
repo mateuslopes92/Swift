@@ -12,17 +12,39 @@ import FirebaseFirestore
 
 class ChatViewModel: ObservableObject {
     
-    @Published var messages: [Message] = [
-        Message(uuid: UUID(), text: "Hello!", isMe: false),
-        Message(uuid: UUID(), text: "Hello!", isMe: true),
-        Message(uuid: UUID(), text: "How are you doing?", isMe: false),
-        Message(uuid: UUID(), text: "All good?", isMe: false),
-        Message(uuid: UUID(), text: "All good!", isMe: true),
-        Message(uuid: UUID(), text: "asdasdasdajsfoajsfoiasfjioas asfjaiosfjioasjfij asjif ioasjfioas jioj!", isMe: false),
-        Message(uuid: UUID(), text: "asdasdasd!", isMe: false),
-    ]
+    @Published var messages: [Message] = []
     
     @Published var text = ""
+    
+    func onAppear(toId: String){
+        let fromId = Auth.auth().currentUser!.uid
+        
+        Firestore.firestore().collection("conversations")
+            .document(fromId)
+            .collection(toId)
+            .order(by: "timestamp", descending: false)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("ERROR: Fetching documents \(error)")
+                }
+                
+                if let changes = querySnapshot?.documentChanges {
+                    for doc in changes {
+                        let document = doc.document
+                        print("Document: \(document.documentID) \(document.data())")
+                        
+                        let message = Message(
+                            uuid: document.documentID,
+                            text: document.data()["text"] as! String,
+                            isMe: fromId == document.data()["fromId"] as! String
+                        )
+                        
+                        self.messages.append(message)
+                    }
+                }
+            }
+            
+    }
     
     func sendMessage(toId: String){
         let fromId = Auth.auth().currentUser!.uid
