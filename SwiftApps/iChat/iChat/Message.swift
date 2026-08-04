@@ -8,7 +8,7 @@
 import Foundation
 
 struct Message: Hashable {
-    let uuid: UUID
+    let uuid: String
     let text: String
     let isMe: Bool
 }
