@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
     
-    let toId: String
-    let username: String
+    let contact: Contact
     
     @StateObject var viewModel = ChatViewModel()
     
@@ -37,7 +36,7 @@ struct ChatView: View {
                     )
                 
                 Button{
-                    viewModel.sendMessage(toId: toId)
+                    viewModel.sendMessage(contact: contact)
                 } label: {
                     Text("Send")
                         .padding()
@@ -50,10 +49,10 @@ struct ChatView: View {
             }
             .padding(8.0)
         }
-        .navigationTitle(username)
+        .navigationTitle(contact.name)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.onAppear(toId: toId)
+            viewModel.onAppear(contact: contact)
         }
     }
 }
@@ -63,17 +62,19 @@ struct MessageRow: View {
     let message: Message
     
     var body: some View {
-        Text(message.text)
-            .background(Color(white: 0.95))
-            .frame(maxWidth: .infinity, alignment: message.isMe ?  .leading : .trailing)
-            .lineLimit(nil)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.leading, message.isMe ? 0 : 50)
-            .padding(.trailing, message.isMe ? 50 : 0)
-            .padding(.vertical, 4)
+        VStack(alignment: .leading) {
+            Text(message.text)
+                .padding(.vertical, 5)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal, 10)
+                .background(Color(white: 0.95))
+                .frame(maxWidth: 260, alignment: message.isMe ?  .trailing : .leading)
+        }
+        .frame(maxWidth: .infinity, alignment:  message.isMe ? .trailing : .leading)
     }
 }
 
 #Preview {
-    ChatView(toId: UUID().uuidString, username: "Test User")
+    ChatView(contact: Contact(uuid: UUID().uuidString, name: "Test user", profileUrl: "Fakeurl"))
 }
