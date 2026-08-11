@@ -12,8 +12,24 @@ struct ConversationsView: View {
 
     var body: some View {
         VStack {
-            Text("Messages here")
-        }.toolbar {
+            if viewModel.isLoading {
+                    ProgressView()
+            }
+            
+            List(viewModel.conversations, id: \.self){ contact in
+                NavigationLink {
+                    ChatView(contact: contact)
+                } label: {
+                    ContactConversationRow(contact: contact)
+                }
+            }
+            
+        }
+        .onAppear{
+            viewModel.getConverstions()
+        }
+        .navigationTitle("Chats")
+        .toolbar {
             ToolbarItem(id: "contacts", placement: .topBarTrailing){
                 NavigationLink("Contacts", destination: ContactsView())
             }
@@ -23,6 +39,34 @@ struct ConversationsView: View {
                 }
             }
         }
+    }
+}
+
+struct ContactConversationRow: View {
+    var contact: Contact
+    
+    var body: some View {
+        HStack {
+            AsyncImage(url: URL(string: contact.profileUrl)){image in
+                image.resizable().scaledToFit().clipShape(Circle())
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 60, height: 60)
+            
+            VStack(alignment: .leading) {
+                Text(contact.name)
+                
+                if let msg = contact.lastMessage {
+                    Text(msg)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            
+            Spacer()
+            
+        }
+        .frame(width: .infinity)
     }
 }
 
