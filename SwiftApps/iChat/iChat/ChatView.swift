@@ -15,12 +15,41 @@ struct ChatView: View {
     
     @State var textSize: CGSize = .zero
     
+    @Namespace var bottomID
+    
     var body: some View {
         VStack{
-            ScrollView(showsIndicators: false){
-                ForEach(viewModel.messages, id: \.self){ message in
-                    MessageRow(message: message)
+            ScrollViewReader { value in
+                ScrollView(showsIndicators: false){
+                    Color
+                        .clear
+                        .frame(height: 1)
+                        .id(bottomID)
+                    
+                    LazyVStack{
+                        
+                        ForEach(viewModel.messages, id: \.self){ message in
+                            MessageRow(message: message)
+                                .scaleEffect(x: 1.0, y: -1.0, anchor: .center)
+                                .onAppear{
+                                    if message == viewModel.messages.last && viewModel.messages.count >= viewModel.limit {
+                                        viewModel.onAppear(contact: contact)
+                                    }
+                                }
+                        }
+                        .onChange(of: viewModel.newCount) { newValue in
+                            if newValue > viewModel.messages.count{
+                                withAnimation {
+                                    value.scrollTo(bottomID)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 20.0)
+                    }
+                    
                 }
+                .rotationEffect(Angle(degrees: 180))
+                .scaleEffect(x: -1.0, y: 1.0, anchor: .center)
             }
             
             Spacer()

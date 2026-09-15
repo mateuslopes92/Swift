@@ -60,6 +60,7 @@ struct ContactConversationRow: View {
                 if let msg = contact.lastMessage {
                     Text(msg)
                         .foregroundStyle(.secondary)
+                        .lineLimit(1)
                 }
             }
             

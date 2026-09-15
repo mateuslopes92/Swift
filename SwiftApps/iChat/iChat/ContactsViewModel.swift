@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import FirebaseFirestore
+import FirebaseAuth
 
 class ContactsViewModel: ObservableObject {
     @Published var contacts: [Contact] = []
@@ -26,13 +27,15 @@ class ContactsViewModel: ObservableObject {
                     print("Error getting documents: \(error)")
                 } else {
                     for document in snapshot!.documents {
-                        self.contacts.append(
-                            Contact(
-                                uuid: document.documentID,
-                                name: document.data()["name"] as! String,
-                                profileUrl: document.data()["profileUrl"] as! String
+                        if Auth.auth().currentUser?.uid != document.documentID{
+                            self.contacts.append(
+                                Contact(
+                                    uuid: document.documentID,
+                                    name: document.data()["name"] as! String,
+                                    profileUrl: document.data()["profileUrl"] as! String
+                                )
                             )
-                        )
+                        }
                     }
                     self.isLoaded = true
                     self.isLoading = false
