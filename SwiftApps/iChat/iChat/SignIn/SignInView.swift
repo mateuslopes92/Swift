@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignInView: View {
-    @StateObject var viewModel: SignInViewModel = SignInViewModel()
+    @StateObject var viewModel: SignInViewModel = SignInViewModel(signInRepository: SignInRepository())
     
     var body: some View {
         VStack {

@@ -17,22 +17,22 @@ class SignInViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     
+    private let signInRepository: SignInRepository
+    
+    init(signInRepository: SignInRepository){
+        self.signInRepository = signInRepository
+    }
+    
     func signIn(){
         isLoading = true
         
-        Auth.auth().signIn(withEmail: email, password: password) {
-            result, err in
-            
-            guard let user = result?.user, err == nil else {
+        signInRepository.signIn(withEmail: email, password: password) { err in
+            if let err = err {
                 self.formInvalid = true
-                self.alertText = err?.localizedDescription ?? "Unknown Error"
-                
-                self.isLoading = false
-                return
+                self.alertText = err
             }
             
             self.isLoading = false
-            print("User loged on Firebase: \(user.uid ?? "Unknown email")")
         }
     }
 }
