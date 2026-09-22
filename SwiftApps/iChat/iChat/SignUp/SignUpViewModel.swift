@@ -22,6 +22,12 @@ class SignUpViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     
+    private let signUpRepository: SignUpRepository
+    
+    init(signUpRepository: SignUpRepository){
+        self.signUpRepository = signUpRepository
+    }
+    
     func signUp(){
         if(image.size.width <= 0){
             self.formInvalid = true
@@ -31,75 +37,13 @@ class SignUpViewModel: ObservableObject {
         
         self.isLoading = true
         
-        Auth.auth().createUser(withEmail: email, password: password) {
-            result, err in
-            
-            guard let user = result?.user, err == nil else {
+        signUpRepository.signUp(withEmail: email, password: password, image: image, name: name){ err in
+            if let err = err {
                 self.formInvalid = true
-                self.alertText = err?.localizedDescription ?? "Unknown Error"
-                
-                self.isLoading = false
-                return
+                self.alertText = err
             }
-            
             self.isLoading = false
-            print("User created on Firebase: \(user.email ?? "Unknown email")")
-            
-            self.uploadPhoto()
         }
-    }
-    
-    private func uploadPhoto(){
-        let filename = UUID().uuidString
-        
-        guard let data = image.jpegData(compressionQuality: 0.2) else { return }
-        
-        let newMetadata = StorageMetadata()
-        newMetadata.contentType = "image/jpeg"
-        
-        let ref = Storage.storage().reference(withPath: "/images/\(filename).jpg")
-        
-        ref.putData(data, metadata: newMetadata){ metadata, error in
-            if let error = error {
-                self.formInvalid = true
-                self.alertText = "Failed to upload photo: \(error.localizedDescription)"
-                self.isLoading = false
-                return
-            }
-            
-            ref.downloadURL{ url, err in
-                self.isLoading = false
-                
-                if let err = err {
-                    self.formInvalid = true
-                    self.alertText = "Failed to upload photo: \(err.localizedDescription)"
-                    return
-                }
-                
-                guard let url = url else { return }
-                print("Photo created \(url, default: "Photo not uploaded")")
-                
-                self.createUser(photoURL: url)
-            }
-        }
-    }
-    
-    private func createUser(photoURL: URL){
-        let id = Auth.auth().currentUser!.uid
-        
-        Firestore.firestore().collection("users")
-            .document(id)
-            .setData([
-                "name": self.name,
-                "uuid": id,
-                "profileUrl": photoURL.absoluteString
-            ]) { err in
-                self.isLoading = false
-                if err != nil {
-                    print(err!.localizedDescription)
-                    return
-                }
-            }
     }
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject var viewModel: SignUpViewModel = SignUpViewModel()
+    @StateObject var viewModel: SignUpViewModel = SignUpViewModel(signUpRepository: SignUpRepository())
     @State var isShowPhotoLibrary: Bool = false
     
     var body: some View {
