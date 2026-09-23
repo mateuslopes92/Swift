@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ConversationsView: View {
-    @StateObject var viewModel = ConversationsViewModel()
+    @StateObject var viewModel = ConversationsViewModel(conversationsRepository: ConversationsRepository())
 
     var body: some View {
         VStack {
