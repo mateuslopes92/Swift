@@ -14,32 +14,23 @@ class ContactsViewModel: ObservableObject {
     @Published var contacts: [Contact] = []
     @Published var isLoading = false
     
+    private let contactsRepository: ContactsRepository
+    
+    init(contactsRepository: ContactsRepository){
+        self.contactsRepository = contactsRepository
+    }
+    
     var isLoaded = false
     
     func fetchContacts() {
         if isLoaded { return }
-        
         isLoading = true
         
-        Firestore.firestore().collection("users")
-            .getDocuments { (snapshot, error) in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    for document in snapshot!.documents {
-                        if Auth.auth().currentUser?.uid != document.documentID{
-                            self.contacts.append(
-                                Contact(
-                                    uuid: document.documentID,
-                                    name: document.data()["name"] as! String,
-                                    profileUrl: document.data()["profileUrl"] as! String
-                                )
-                            )
-                        }
-                    }
-                    self.isLoaded = true
-                    self.isLoading = false
-                }
-            }
+        contactsRepository.fetchContacts { contacts in
+            self.contacts.append(contentsOf: contacts)
+            self.isLoaded = true
+            self.isLoading = false
+        }
+        
     }
 }

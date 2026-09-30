@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContactsView: View {
-    @StateObject var viewModel = ContactsViewModel()
+    @StateObject var viewModel = ContactsViewModel(contactsRepository: ContactsRepository())
     
     var body: some View {
         VStack {
