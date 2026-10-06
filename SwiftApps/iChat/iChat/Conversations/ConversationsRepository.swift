@@ -21,11 +21,12 @@ class ConversationsRepository {
             .collection("contacts")
             .addSnapshotListener{ snapshot, error in
                 if let changes = snapshot?.documentChanges {
+                    conversations.removeAll()
+                    
                     for doc in changes {
                         if doc.type == .added {
                             let document = doc.document
                             
-                            conversations.removeAll()
                             conversations.append(
                                 Contact(
                                     uuid: document.documentID,

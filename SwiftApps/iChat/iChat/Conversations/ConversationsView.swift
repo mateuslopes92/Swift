@@ -26,7 +26,11 @@ struct ConversationsView: View {
             
         }
         .onAppear{
+            viewModel.handleEnabled(enabled: true)
             viewModel.getConverstions()
+        }
+        .onDisappear{
+            viewModel.handleEnabled(enabled: false)
         }
         .navigationTitle("Chats")
         .toolbar {

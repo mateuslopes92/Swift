@@ -17,15 +17,22 @@ class ConversationsViewModel: ObservableObject {
     
     private let conversationsRepository: ConversationsRepository
     
+    private var handleEnabled = true
+    
     init(conversationsRepository: ConversationsRepository){
         self.conversationsRepository = conversationsRepository
     }
     
     func getConverstions() {
         conversationsRepository.getConverstions(){ conversations in
-            self.conversations.removeAll()
-            self.conversations = conversations
+            if self.handleEnabled {
+                self.conversations = conversations
+            }
         }
+    }
+    
+    func handleEnabled(enabled: Bool){
+        self.handleEnabled = enabled
     }
     
     func logout() {
