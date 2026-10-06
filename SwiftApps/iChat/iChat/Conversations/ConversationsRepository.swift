@@ -21,7 +21,6 @@ class ConversationsRepository {
             .collection("contacts")
             .addSnapshotListener{ snapshot, error in
                 if let changes = snapshot?.documentChanges {
-                    conversations.removeAll()
                     
                     for doc in changes {
                         if doc.type == .added {
